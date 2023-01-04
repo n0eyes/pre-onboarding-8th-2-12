@@ -1,21 +1,20 @@
 import React from 'react';
+import { useFetchBoard } from '../../@hooks/quries/board';
 import { DnDList } from '../DnDList';
 import { Styled } from './style';
 
 export const Board = ({ title = '제목 없음' }) => {
-  fetch('/board')
-    .then((response) => response.json())
-    .then((data) => console.log(data));
+  const { data: board } = useFetchBoard();
 
   return (
     <Styled.Root>
       <Styled.Title contentEditable suppressContentEditableWarning>
-        {title}
+        {board.title}
       </Styled.Title>
       <Styled.Main>
-        <DnDList state="idle" />
-        <DnDList state="pending" />
-        <DnDList state="fulfilled" />
+        {board.states.map(({ id, state, issues }) => (
+          <DnDList key={id} state={state} issues={issues} />
+        ))}
       </Styled.Main>
     </Styled.Root>
   );

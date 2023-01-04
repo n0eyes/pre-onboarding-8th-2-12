@@ -26,7 +26,7 @@ const Styled = {
   DeleteBtn: styled.button`
     visibility: hidden;
 
-    height: 3rem;
+    height: 2.5rem;
     box-sizing: content-box;
 
     margin-left: auto;
