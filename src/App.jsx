@@ -1,5 +1,7 @@
+import { Board } from './components/Board';
+
 function App() {
-  return <div>hello world</div>;
+  return <Board />;
 }
 
 export default App;
