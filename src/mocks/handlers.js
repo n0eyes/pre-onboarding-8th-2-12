@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-const boardTable = {
+const initial = {
   title: '제목 없음',
   states: [
     {
@@ -81,17 +81,39 @@ const boardTable = {
   ],
 };
 
+const boardTable =
+  JSON.parse(localStorage.getItem('boardTable')) ??
+  (localStorage.setItem('boardTable', JSON.stringify(initial)) ||
+    JSON.parse(localStorage.getItem('boardTable')));
+
+const getData = () => ({
+  title: boardTable.title,
+  states: boardTable.states.map((state) => {
+    const issues = boardTable.issues.filter(
+      (issue) => issue.state === state.id
+    );
+    return { ...state, issues };
+  }),
+});
+
+const updateBoardTitle = (title) => {
+  const db = JSON.parse(localStorage.getItem('boardTable'));
+
+  db.title = title;
+
+  localStorage.setItem('boardTable', JSON.stringify(db));
+};
+
 export const handlers = [
   rest.get('/board', (req, res, ctx) => {
-    const data = {
-      title: boardTable.title,
-      states: boardTable.states.map((state) => {
-        const issues = boardTable.issues.filter(
-          (issue) => issue.state === state.id
-        );
-        return { ...state, issues };
-      }),
-    };
+    const data = getData();
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
+  rest.put('/board/title', (req, res, ctx) => {
+    updateBoardTitle(req.body);
+
+    const data = getData();
 
     return res(ctx.status(200), ctx.json(data));
   }),
