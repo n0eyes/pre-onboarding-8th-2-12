@@ -9,11 +9,15 @@ const Styled = {
     line-height: 3rem;
 
     font-size: 2rem;
+    font-weight: bold;
+
+    margin-bottom: 1rem;
   `,
 
   Main: styled.main`
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(20%, auto));
+    grid-gap: 1rem;
   `,
 };
 

@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { Card } from '../Card';
-import { Styled } from './style';
+import * as Styled from './style';
 
 export const DnDList = ({ state }) => {
   return (
     <Styled.Root>
       <Styled.State>
-        {state} 3 <Styled.AddBtn>+</Styled.AddBtn>
+        {state} 3 <Styled.AddBtnIC>+</Styled.AddBtnIC>
       </Styled.State>
       <Styled.CardList>
         <Card />

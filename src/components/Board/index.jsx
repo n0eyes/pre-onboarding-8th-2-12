@@ -15,26 +15,4 @@ export const Board = ({ title = '제목 없음' }) => {
       </Styled.Main>
     </Styled.Root>
   );
-  // <Board
-  //   title= 'adsf'
-  //   data= {[
-  //     {
-  //       id: 1,
-  //       state: 'idle',
-  //       count: 2,
-  //       issues: [
-  //         {
-  //           id:
-  //           title:
-  //           content:
-  //           endDate:
-  //           state:
-  //           owner:
-
-  //         }
-  //       ]
-  //   }
-  //   ]}
-
-  // />
 };
