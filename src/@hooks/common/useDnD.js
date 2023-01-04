@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useUpdateDnD } from '../queries/board';
 
-export const getPositionInfo = (elem, y) => {
+const getPositionInfo = (elem, y) => {
   const info = elem.getBoundingClientRect();
   const offset = y - info.top - info.height / 2;
 
@@ -9,12 +10,15 @@ export const getPositionInfo = (elem, y) => {
     : { position: 'after', targetId: Number(elem.dataset.id) };
 };
 
+const initialInfo = {
+  position: '',
+  targetId: null,
+};
+
 export const useDnD = () => {
   let draggingId = null;
-  const [positionInfo, setPositionInfo] = useState({
-    position: '',
-    targetId: null,
-  });
+  const { mutate: updateDnD } = useUpdateDnD();
+  const [positionInfo, setPositionInfo] = useState(initialInfo);
 
   const handleDragStart = (e) => {
     draggingId = Number(e.target.dataset.id);
@@ -25,6 +29,7 @@ export const useDnD = () => {
 
   const handleDragOver = (e) => {
     e.preventDefault();
+
     const newPositionInfo = getPositionInfo(e.target, e.clientY);
 
     if (
@@ -38,9 +43,29 @@ export const useDnD = () => {
   const handleDrop = (e) => {
     const draggingId = JSON.parse(e.dataTransfer.getData('draggingId'));
 
-    /** body */
-    console.log({ ...positionInfo, draggingId });
+    /**
+     * 제자리 DnD 방지를 위해 targetId 여부를 확인한다
+     * 뮤테이션 후 초기화
+     */
+    if (positionInfo.targetId && draggingId !== positionInfo.targetId) {
+      updateDnD(
+        { ...positionInfo, draggingId },
+        {
+          onSettled() {
+            setPositionInfo(initialInfo);
+          },
+        }
+      );
+    }
   };
 
-  return { handleDragStart, handleDragOver, handleDrop, positionInfo };
+  const handleDragLeave = (e) => setPositionInfo(initialInfo);
+
+  return {
+    handleDragStart,
+    handleDragOver,
+    handleDrop,
+    handleDragLeave,
+    positionInfo,
+  };
 };

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { css } from 'styled-components';
 
 const Styled = {
   Root: styled.li`
@@ -9,6 +10,18 @@ const Styled = {
     line-height: 3rem;
 
     border: 1px solid lightgray;
+
+    ${({ position }) => {
+      if (position === 'before')
+        return css`
+          border-top: 5px solid dodgerblue;
+        `;
+
+      if (position === 'after')
+        return css`
+          border-bottom: 5px solid dodgerblue;
+        `;
+    }}
 
     padding: 1rem;
 

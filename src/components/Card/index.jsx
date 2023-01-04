@@ -4,15 +4,23 @@ import { Styled } from './style';
 export const Card = ({ issue, DnD }) => {
   const { title, id } = issue;
 
-  const { positionInfo, handleDragStart, handleDragOver, handleDrop } = DnD;
+  const {
+    positionInfo: { position, targetId },
+    handleDragStart,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+  } = DnD;
 
   return (
     <Styled.Root
       draggable
       onDragOver={handleDragOver}
       onDragStart={handleDragStart}
-      onDrop={(e) => handleDrop(e, positionInfo)}
-      data-id={id}>
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      data-id={id}
+      {...(targetId === id ? { position } : null)}>
       <Styled.Title>{title}</Styled.Title>
       <Styled.DeleteBtn>삭제</Styled.DeleteBtn>
     </Styled.Root>

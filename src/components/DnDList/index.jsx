@@ -1,6 +1,5 @@
 import React from 'react';
 import { useDnD } from '../../@hooks/common/useDnD';
-
 import { Card } from '../Card';
 import * as Styled from './style';
 
