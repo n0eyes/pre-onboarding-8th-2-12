@@ -17,8 +17,8 @@ export const Board = () => {
         {board.title}
       </Styled.Title>
       <Styled.Main>
-        {board.states.map(({ id, state, issues }) => (
-          <DnDList key={id} state={state} issues={issues} />
+        {board.states.map((state) => (
+          <DnDList key={state.id} stateData={state} />
         ))}
       </Styled.Main>
     </Styled.Root>
