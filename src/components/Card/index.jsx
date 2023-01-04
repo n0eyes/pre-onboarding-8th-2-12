@@ -1,7 +1,7 @@
 import React from 'react';
 import { Styled } from './style';
 
-export const Card = ({ issue, DnD }) => {
+export const Card = ({ issue, DnD, onClick: deleteIssue }) => {
   const { title, id } = issue;
 
   const {
@@ -22,7 +22,7 @@ export const Card = ({ issue, DnD }) => {
       data-id={id}
       {...(targetId === id ? { position } : null)}>
       <Styled.Title>{title}</Styled.Title>
-      <Styled.DeleteBtn>삭제</Styled.DeleteBtn>
+      <Styled.DeleteBtn onClick={() => deleteIssue(id)}>삭제</Styled.DeleteBtn>
     </Styled.Root>
   );
 };

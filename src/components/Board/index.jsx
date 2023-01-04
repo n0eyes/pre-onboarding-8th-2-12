@@ -1,12 +1,13 @@
 import React from 'react';
-import { useFetchBoard, useUpdateBoardTitle } from '../../@hooks/queries/board';
+import { useBoard } from '../../@hooks/business/board';
+import { useFetchBoard } from '../../@hooks/queries/board';
 import { editableHandler } from '../../utils/editableHandler';
 import { DnDList } from '../DnDList';
 import { Styled } from './style';
 
 export const Board = () => {
   const { data: board } = useFetchBoard();
-  const { mutate: updateTitle } = useUpdateBoardTitle();
+  const { updateTitle, deleteIssue } = useBoard();
 
   return (
     <Styled.Root>
@@ -18,7 +19,7 @@ export const Board = () => {
       </Styled.Title>
       <Styled.Main>
         {board.states.map((state) => (
-          <DnDList key={state.id} stateData={state} />
+          <DnDList key={state.id} stateData={state} onDelete={deleteIssue} />
         ))}
       </Styled.Main>
     </Styled.Root>

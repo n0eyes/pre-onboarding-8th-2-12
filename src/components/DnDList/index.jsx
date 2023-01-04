@@ -3,7 +3,7 @@ import { useDnD } from '../../@hooks/common/useDnD';
 import { Card } from '../Card';
 import * as Styled from './style';
 
-export const DnDList = ({ stateData }) => {
+export const DnDList = ({ stateData, onDelete: deleteIssue }) => {
   const { id, state, issues } = stateData;
   const DnD = useDnD();
 
@@ -14,7 +14,7 @@ export const DnDList = ({ stateData }) => {
       </Styled.State>
       <Styled.CardList data-state-id={id}>
         {issues.map((issue) => (
-          <Card key={issue.id} issue={issue} DnD={DnD} />
+          <Card key={issue.id} issue={issue} DnD={DnD} onClick={deleteIssue} />
         ))}
         <Styled.AddBtn>+</Styled.AddBtn>
       </Styled.CardList>

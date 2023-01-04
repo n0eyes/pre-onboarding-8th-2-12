@@ -7,3 +7,6 @@ export const updateBoardTitle = async (title) =>
 
 export const updateDnD = async (payload) =>
   await axios.put('/board/dnd', payload);
+
+export const deleteIssue = async (id) =>
+  await axios.delete(`/board/issue/${id}`);

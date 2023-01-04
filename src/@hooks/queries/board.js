@@ -1,5 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getBoard, updateBoardTitle, updateDnD } from '../../apis/board';
+import {
+  deleteIssue,
+  getBoard,
+  updateBoardTitle,
+  updateDnD,
+} from '../../apis/board';
 
 export const useFetchBoard = () => {
   const data = useQuery(['board'], getBoard);
@@ -21,6 +26,16 @@ export const useUpdateDnD = () => {
   const queryClient = useQueryClient();
 
   return useMutation(updateDnD, {
+    onSuccess() {
+      queryClient.invalidateQueries(['board']);
+    },
+  });
+};
+
+export const useDeleteIssue = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(deleteIssue, {
     onSuccess() {
       queryClient.invalidateQueries(['board']);
     },
