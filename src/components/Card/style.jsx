@@ -100,9 +100,13 @@ const Styled = {
 
     overflow: scroll;
 
-    &:hover {
-      background-color: lightgray;
-    }
+    ${({ hover }) =>
+      hover &&
+      css`
+        &:hover {
+          background-color: lightgray;
+        }
+      `}
 
     ${({ searching }) =>
       searching

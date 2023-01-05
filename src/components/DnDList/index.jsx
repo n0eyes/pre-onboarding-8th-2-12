@@ -4,7 +4,7 @@ import { Card } from '../Card';
 import { CreatingCard } from '../Card/CreatingCard';
 import * as Styled from './style';
 
-export const DnDList = memo(({ stateData, onDelete: deleteIssue }) => {
+export const DnDList = memo(({ stateData, owners, onDelete: deleteIssue }) => {
   const { id, state, issues } = stateData;
   const DnD = useDnD();
 
@@ -17,7 +17,7 @@ export const DnDList = memo(({ stateData, onDelete: deleteIssue }) => {
         {issues.map((issue) => (
           <Card key={issue.id} issue={issue} DnD={DnD} onClick={deleteIssue} />
         ))}
-        <CreatingCard />
+        <CreatingCard owners={owners} />
         <Styled.AddBtn>+</Styled.AddBtn>
       </Styled.CardList>
     </Styled.Root>

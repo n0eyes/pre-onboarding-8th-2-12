@@ -2,6 +2,24 @@ import { rest } from 'msw';
 
 const initial = {
   title: '제목 없음',
+  owners: [
+    {
+      id: 1,
+      name: 'seyeon',
+    },
+    {
+      id: 2,
+      name: 'Park',
+    },
+    {
+      id: 3,
+      name: 'Lee',
+    },
+    {
+      id: 4,
+      name: 'John',
+    },
+  ],
   states: [
     {
       id: 1,
@@ -110,6 +128,7 @@ const getData = () => {
   const boardTable = getBoardTable();
   return {
     title: boardTable.title,
+    owners: boardTable.owners,
     states: boardTable.states.map((state) => {
       const issues = boardTable.issues
         .filter((issue) => issue.state === state.id)

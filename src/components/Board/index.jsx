@@ -18,7 +18,12 @@ export const Board = () => {
       </Styled.Title>
       <Styled.Main>
         {board.states.map((state) => (
-          <DnDList key={state.id} stateData={state} onDelete={deleteIssue} />
+          <DnDList
+            key={state.id}
+            stateData={state}
+            onDelete={deleteIssue}
+            owners={board.owners}
+          />
         ))}
       </Styled.Main>
     </Styled.Root>
