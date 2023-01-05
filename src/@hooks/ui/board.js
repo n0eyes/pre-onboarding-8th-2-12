@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useInput } from '../common/useInput';
 
 export const useCreatingCard = () => {
+  const [isCreating, setIsCreating] = useState(false);
   const [title, titleHandler] = useInput();
   const [isSearching, setIsSearching] = useState(false);
 
@@ -9,15 +10,21 @@ export const useCreatingCard = () => {
   const finishSearch = () => setIsSearching(false);
   const toggleSearch = () => setIsSearching((prev) => !prev);
 
+  const startCreating = () => setIsCreating(true);
+  const finishCreating = () => setIsCreating(false);
+
   return {
     values: {
       title,
       isSearching,
+      isCreating,
     },
     handlers: {
       startSearch,
       finishSearch,
       toggleSearch,
+      startCreating,
+      finishCreating,
       titleHandler,
     },
   };
