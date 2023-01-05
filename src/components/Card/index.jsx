@@ -20,6 +20,7 @@ export const Card = ({ issue, DnD, onClick: deleteIssue }) => {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       data-id={id}
+      hover
       {...(targetId === id ? { position } : null)}>
       <Styled.Title>{title}</Styled.Title>
       <Styled.DeleteBtn onClick={() => deleteIssue(id)}>삭제</Styled.DeleteBtn>

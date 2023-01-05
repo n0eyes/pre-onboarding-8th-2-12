@@ -5,6 +5,7 @@ import { GlobalStyle } from './style/global';
 
 import { worker } from './mocks/worker';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { TargetContextProvider } from './context/TargetContext';
 if (process.env.NODE_ENV === 'development') {
   worker.start();
 }
@@ -20,8 +21,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <GlobalStyle />
-      <App />
+      <TargetContextProvider>
+        <GlobalStyle />
+        <App />
+      </TargetContextProvider>
     </QueryClientProvider>
   </React.StrictMode>
 );

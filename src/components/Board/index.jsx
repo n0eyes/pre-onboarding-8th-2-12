@@ -1,4 +1,3 @@
-import React from 'react';
 import { useBoard } from '../../@hooks/business/board';
 import { useFetchBoard } from '../../@hooks/queries/board';
 import { editableHandler } from '../../utils/editableHandler';

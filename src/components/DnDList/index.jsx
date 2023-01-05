@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useDnD } from '../../@hooks/common/useDnD';
 import { Card } from '../Card';
+import { CreatingCard } from '../Card/CreatingCard';
 import * as Styled from './style';
 
-export const DnDList = ({ stateData, onDelete: deleteIssue }) => {
+export const DnDList = memo(({ stateData, onDelete: deleteIssue }) => {
   const { id, state, issues } = stateData;
   const DnD = useDnD();
 
@@ -16,8 +17,9 @@ export const DnDList = ({ stateData, onDelete: deleteIssue }) => {
         {issues.map((issue) => (
           <Card key={issue.id} issue={issue} DnD={DnD} onClick={deleteIssue} />
         ))}
+        <CreatingCard />
         <Styled.AddBtn>+</Styled.AddBtn>
       </Styled.CardList>
     </Styled.Root>
   );
-};
+});
