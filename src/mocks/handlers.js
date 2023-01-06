@@ -277,7 +277,7 @@ export const handlers = [
   rest.get('/board', (req, res, ctx) => {
     const data = getData();
 
-    return res(ctx.status(400), ctx.json(data));
+    return res(ctx.status(200), ctx.json(data));
   }),
 
   rest.put('/board/title', (req, res, ctx) => {
