@@ -52,12 +52,14 @@ export const useCratingCardSearchForm = (owners) => {
     setSelectedOwnerList(newSelectedOwnerList);
   };
 
-  const debouncedSetSearchedOwnerList = debounce(setSearchedOwnerList);
-
-  useEffect(() => {
+  const debouncedSearch = debounce(() => {
     const searched = owners.filter((owner) => owner.name === searchInput);
 
-    debouncedSetSearchedOwnerList(searched);
+    setSearchedOwnerList(searched);
+  });
+
+  useEffect(() => {
+    debouncedSearch();
   }, [searchInput]);
 
   return {
