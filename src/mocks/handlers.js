@@ -1,4 +1,6 @@
 import { rest } from 'msw';
+import { v4 } from 'uuid';
+import { getToday } from '../utils/getToday';
 
 const initial = {
   title: '제목 없음',
@@ -37,85 +39,85 @@ const initial = {
 
   issues: [
     {
-      id: 1,
+      id: v4(),
       state: 1,
       order: 1024,
       title: '제목1111111',
       content: '내용1',
       endDate: '2023-03-01',
-      owner: 'seyeon1',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 2,
+      id: v4(),
       state: 1,
       order: 2048,
       title: '제목22222222',
       content: '내용2',
       endDate: '2023-03-02',
-      owner: 'seyeon2',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 3,
+      id: v4(),
       state: 1,
       order: 3072,
       title: '제목33333333',
       content: '내용3',
       endDate: '2023-03-03',
-      owner: 'seyeon3',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 4,
+      id: v4(),
       state: 2,
       order: 1024,
       title: '제목4444',
       content: '내용1',
       endDate: '2023-03-01',
-      owner: 'seyeon1',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 5,
+      id: v4(),
       state: 2,
       order: 2048,
       title: '제목555555',
       content: '내용2',
       endDate: '2023-03-02',
-      owner: 'seyeon2',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 6,
+      id: v4(),
       state: 2,
       order: 3072,
       title: '제목66666',
       content: '내용3',
       endDate: '2023-03-03',
-      owner: 'seyeon3',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 7,
+      id: v4(),
       state: 3,
       order: 1024,
       title: '제목777',
       content: '내용1',
       endDate: '2023-03-01',
-      owner: 'seyeon1',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 8,
+      id: v4(),
       state: 3,
       order: 2048,
       title: '제목888888888',
       content: '내용2',
       endDate: '2023-03-02',
-      owner: 'seyeon2',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
     {
-      id: 9,
+      id: v4(),
       state: 3,
       order: 3072,
       title: '제목9999999',
       content: '내용3',
       endDate: '2023-03-03',
-      owner: 'seyeon3',
+      owner: [{ id: 1, name: 'seyeon1' }],
     },
   ],
 };
@@ -202,6 +204,33 @@ const deleteIssue = (id) => {
   localStorage.setItem('boardTable', JSON.stringify(db));
 };
 
+const createIssue = ({ title, ownerList, stateId }) => {
+  const db = getDB();
+  const issues = db.issues.filter((issue) => issue.state === stateId);
+  const owner = db.owners.filter((owner) => {
+    const [selected] = ownerList.filter((id) => id === owner.id);
+
+    return selected;
+  });
+
+  const lastOrder = issues[issues.length - 1].order;
+  const newIssue = {
+    id: v4(),
+    title,
+    owner,
+    content: '',
+    order: lastOrder + 1024,
+    state: stateId,
+    endDate: getToday(),
+  };
+
+  const newIssues = [...db.issues, newIssue].sort((a, b) => a.id - b.id);
+
+  db.issues = newIssues;
+
+  localStorage.setItem('boardTable', JSON.stringify(db));
+};
+
 export const handlers = [
   rest.get('/board', (req, res, ctx) => {
     const data = getData();
@@ -227,6 +256,14 @@ export const handlers = [
 
   rest.delete('/board/issue/:id', (req, res, ctx) => {
     deleteIssue(Number(req.params.id));
+
+    const data = getData();
+
+    return res(ctx.status(200), ctx.json(data));
+  }),
+
+  rest.post('/board/issue', (req, res, ctx) => {
+    createIssue(req.body);
 
     const data = getData();
 

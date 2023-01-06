@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useInput } from '../../@hooks/common/useInput';
 import { useTargetContext } from '../../@hooks/common/useTargetContext';
 import {
   useCratingCardSearchForm,
@@ -7,12 +6,11 @@ import {
 } from '../../@hooks/ui/board';
 import { Styled } from './style';
 
-export const CreatingCard = ({ owners }) => {
-  const [value, changeHandler] = useInput();
+export const CreatingCard = ({ owners, createIssue, stateId }) => {
   const targetInfo = useTargetContext();
   const {
-    values: { isSearching },
-    handlers: { startSearch },
+    values: { title, isSearching },
+    handlers: { titleHandler, startSearch },
   } = useCreatingCard();
   const {
     values: { searchInput, searchedOwnerList, selectedOwnerList },
@@ -20,20 +18,24 @@ export const CreatingCard = ({ owners }) => {
   } = useCratingCardSearchForm(owners);
 
   useEffect(() => {
-    if (targetInfo?.target.closest('li')?.id === 'creating') {
-      console.log('creating');
+    if (
+      !targetInfo?.target.closest('button') &&
+      !targetInfo?.target.closest('#creating')
+    ) {
+      createIssue({ title, selectedOwnerList, stateId });
     }
   }, [targetInfo]);
 
   return (
     <Styled.Root id="creating" column>
       <Styled.TextArea
-        value={value}
-        onChange={changeHandler}
+        value={title}
+        onChange={titleHandler}
         placeholder="제목을 입력하세요"
       />
 
-      {isSearching ? (
+      <CreatingCard.OwnerList onClick={startSearch} hidden={isSearching} />
+      {isSearching && (
         <CreatingCard.OwnerSearchForm
           value={searchInput}
           onChange={searchInputHandler}
@@ -42,18 +44,15 @@ export const CreatingCard = ({ owners }) => {
           selectedOwnerList={selectedOwnerList}
           searchedOwnerList={searchedOwnerList}
         />
-      ) : (
-        <CreatingCard.OwnerList onClick={startSearch} />
       )}
     </Styled.Root>
   );
 };
 
-CreatingCard.OwnerList = function OwnerList({ onClick: startSearch }) {
+CreatingCard.OwnerList = function OwnerList({ hidden, onClick: startSearch }) {
   return (
-    <Styled.OwnerList onClick={startSearch} hover>
-      <Styled.OwnerItem>seyeon</Styled.OwnerItem>
-      <Styled.OwnerItem>seyeon</Styled.OwnerItem>
+    <Styled.OwnerList onClick={startSearch} hover hidden={hidden}>
+      <Styled.OwnerItem>담당자 선택</Styled.OwnerItem>
     </Styled.OwnerList>
   );
 };

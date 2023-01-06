@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
+  createIssue,
   deleteIssue,
   getBoard,
   updateBoardTitle,
@@ -36,6 +37,16 @@ export const useDeleteIssue = () => {
   const queryClient = useQueryClient();
 
   return useMutation(deleteIssue, {
+    onSuccess() {
+      queryClient.invalidateQueries(['board']);
+    },
+  });
+};
+
+export const useCreateIssue = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(createIssue, {
     onSuccess() {
       queryClient.invalidateQueries(['board']);
     },

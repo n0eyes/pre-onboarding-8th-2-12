@@ -10,3 +10,6 @@ export const updateDnD = async (payload) =>
 
 export const deleteIssue = async (id) =>
   await axios.delete(`/board/issue/${id}`);
+
+export const createIssue = async (payload) =>
+  await axios.post(`/board/issue`, payload);

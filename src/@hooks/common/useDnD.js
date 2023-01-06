@@ -6,8 +6,8 @@ const getPositionInfo = (elem, y) => {
   const offset = y - info.top - info.height / 2;
 
   return offset < 0
-    ? { position: 'before', targetId: Number(elem.dataset.id) }
-    : { position: 'after', targetId: Number(elem.dataset.id) };
+    ? { position: 'before', targetId: elem.dataset.id }
+    : { position: 'after', targetId: elem.dataset.id };
 };
 
 const initialInfo = {
@@ -21,7 +21,7 @@ export const useDnD = () => {
   const [positionInfo, setPositionInfo] = useState(initialInfo);
 
   const handleDragStart = (e) => {
-    draggingId = Number(e.target.dataset.id);
+    draggingId = e.target.dataset.id;
 
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('draggingId', draggingId);
@@ -41,7 +41,7 @@ export const useDnD = () => {
   };
 
   const handleDrop = (e) => {
-    const draggingId = JSON.parse(e.dataTransfer.getData('draggingId'));
+    const draggingId = e.dataTransfer.getData('draggingId');
 
     /**
      * 제자리 DnD 방지를 위해 targetId 여부를 확인한다
