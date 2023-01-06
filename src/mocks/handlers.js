@@ -255,7 +255,7 @@ export const handlers = [
   }),
 
   rest.delete('/board/issue/:id', (req, res, ctx) => {
-    deleteIssue(Number(req.params.id));
+    deleteIssue(req.params.id);
 
     const data = getData();
 
