@@ -2,17 +2,21 @@ import styled from 'styled-components';
 import { Suspense } from 'react';
 import { useTargetUpdateContext } from './@hooks/common/useTargetContext';
 import { Board } from './components/Board';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import { ERROR } from './components/common/Error';
 
 function App() {
   const clickHandler = useTargetUpdateContext();
 
   return (
     <>
-      <Layout onClick={clickHandler}>
-        <Suspense fallback={<div>loading...</div>}>
-          <Board />
-        </Suspense>
-      </Layout>
+      <ErrorBoundary fallback={<ERROR />}>
+        <Layout onClick={clickHandler}>
+          <Suspense fallback={<div>loading...</div>}>
+            <Board />
+          </Suspense>
+        </Layout>
+      </ErrorBoundary>
     </>
   );
 }
