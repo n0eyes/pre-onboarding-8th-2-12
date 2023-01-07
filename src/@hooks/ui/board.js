@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { debounce } from '../../utils/debounce';
+// import { debounce } from '../../utils/debounce';
+import { useDebounce } from '../common/useDebounce';
 import { useInput } from '../common/useInput';
 
 export const useCreatingCard = () => {
@@ -32,6 +33,7 @@ export const useCreatingCard = () => {
 };
 
 export const useCratingCardSearchForm = (owners) => {
+  const debounce = useDebounce();
   const [searchInput, searchInputHandler] = useInput();
   const [selectedOwnerList, setSelectedOwnerList] = useState([]);
   const [searchedOwnerList, setSearchedOwnerList] = useState([]);
