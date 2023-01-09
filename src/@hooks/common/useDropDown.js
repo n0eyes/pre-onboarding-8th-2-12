@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useBoolean } from './useBoolean';
 
+/** @deprecated */
 export const useDropDown = (
   { initial, items } = { initial: [], items: [] }
 ) => {
@@ -19,5 +21,32 @@ export const useDropDown = (
   return {
     values: [isOpened, selectedItems, dropDownItems],
     handlers: [trigger, close, switchItem, addItem],
+  };
+};
+
+export const useDropBox = () => {
+  const [opened, open, close] = useBoolean();
+
+  const onClick = (e) => {
+    if (opened && e.target.closest('#trigger')) close();
+    if (!opened && e.target.closest('#trigger')) {
+      e.target.focus();
+      open();
+    }
+  };
+
+  const onBlur = () => {
+    close();
+  };
+
+  const onMouseDown = (callback) => {
+    return (e) => {
+      if (e.target.closest('#item')) callback(e);
+    };
+  };
+
+  return {
+    values: { opened },
+    handlers: { onClick, onBlur, onMouseDown },
   };
 };
