@@ -28,7 +28,7 @@ export const DnDList = memo(
         <Styled.State>
           {state} {issues.length} <Styled.AddBtnIC>+</Styled.AddBtnIC>
         </Styled.State>
-        <Styled.CardList data-state-id={id}>
+        <Styled.CardList>
           {issues.map((issue) => (
             <Card
               key={issue.id}
