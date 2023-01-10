@@ -5,6 +5,7 @@ export const useBoolean = (initial = false) => {
 
   const setTrue = () => setBoolean(true);
   const setFalse = () => setBoolean(false);
+  const toggle = () => setBoolean((prev) => !prev);
 
-  return [boolean, setTrue, setFalse];
+  return [boolean, setTrue, setFalse, toggle];
 };
